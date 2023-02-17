@@ -79,6 +79,10 @@ cardNumberIngestion = cardNumber["STATUS"]
 
 # COMMAND ----------
 
+print(user)
+
+# COMMAND ----------
+
 import pandas as pd
 from datetime import datetime
 import oracledb
@@ -129,7 +133,51 @@ try:
     elif isLegacyIngestion:
         query = '''Select * From dw_ods.ODS_RES_A500_INTERCAMBIO WHERE DT_ALTERACAO >= '{0}' and DT_ALTERACAO <= '{1}' ORDER BY DT_ALTERACAO'''.format(start_date_str,end_date_str)
     else:
-        query = '''Select * From dw_ods.ODS_RES_A500_INTERCAMBIO WHERE DT_CARGA >= '{0}' and DT_CARGA <= '{1}' ORDER BY DT_CARGA'''.format(start_date_str,end_date_str)
+        query = '''Select "DT_CARGA",
+                "DT_ALTERACAO",
+                "ID_TRANSACAO",
+                "DT_TRANSACAO",
+                "ID_STATUS_TRANSACAO",
+                "STATUS",
+                "CD_UNIMED_ORIGEM",
+                "UNIMED_ORIGEM",
+                "CD_UNIMED_DESTINO",
+                "UNIMED_DESTINO",
+                "CD_UNIMED_BENEFICIARIO",
+                "ID_BENEFICIARIO",
+                "COD_BENEFICIARIO",
+                "FG_RECEM_NATO",
+                "TIPO_PACIENTE",
+                "NOME_CONTRATADO_EXECUTANTE",
+                "CNES_CONTRATADO_EXECUTANTE",
+                "CNPJ_CONTRATADO_EXECUTANTE",
+                "TIPO_PRESTADOR",
+                "FG_RECURSO_PROPRIO",
+                "NOME_PROFISSIONAL_EXECUTANTE",
+                "SG_CONSELHO_PROFISSIONAL_EXECUTANTE",
+                "NR_CONSELHO_PROFISSIONAL_EXECUTANTE",
+                "SG_UF_PROFISSIONAL_EXECUTANTE",
+                "CD_CBO_PROFISSIONAL_EXECUTANTE",
+                "TIPO_CONSULTA",
+                "TIPO_ACIDENTE",
+                "NOME_PROFISSIONAL_SOLICITANTE",
+                "SG_CONSELHO_PROFISSIONAL_SOLICITANTE",
+                "NR_CONSELHO_PROFISSIONAL_SOLICITANTE",
+                "SG_UF_PROFISSIONAL_SOLICITANTE",
+                "CD_CBO_PROFISSIONAL_SOLICITANTE",
+                "CD_TECNICA_UTILIZADA",
+                "TIPO_PARTICIPACAO",
+                "TIPO_ATENDIMENTO",
+                "CD_CARATER_ATENDIMENTO",
+                "TIPO_ENCERRAMENTO",
+                "DT_EXECUCAO",
+                "DT_ATENDIMENTO",
+                "NR_SEQ_ITEM",
+                "CD_ITEM_UNICO",
+                "TIPO_TABELA",
+                "CD_SERVICO",
+                "TP_GUIA",
+                "TIPO_INTERNACAO,TIPO_REGIME_INTERNACAO,CD_CID,NR_GUIATISSPRESTADOR,CHAVE_NOTA From dw_ods.ODS_RES_A500_INTERCAMBIO WHERE DT_CARGA >= '{0}' and DT_CARGA <= '{1}' ORDER BY DT_CARGA'''.format(start_date_str,end_date_str)
         
     print("query : "+query)
     fetcher.execute(query)
@@ -142,7 +190,6 @@ except Exception as e:
     updateDataIngestionStats(bronzeDataBase,tableName,startDate, end_date, len(result), str(e))
     dbutils.notebook.exit(e)
 finally:
-    print("result count : ",len(result))
     connection.close()
 
 

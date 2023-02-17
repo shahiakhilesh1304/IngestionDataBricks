@@ -233,6 +233,13 @@ def mapping_Common_CareTeam_Data(data):
     except:
         SG_CONSELHO_PROFISSIONAL_EXECUTANTE_str = ""
 
+    try:
+        SG_CONSELHO_PROFISSIONAL_SOLICITANTE_str = SG_CONSELHO_PROFISSIONAL_EXECUTANTE[
+            data["SG_CONSELHO_PROFISSIONAL_SOLICITANTE"]
+        ]
+    except:
+        SG_CONSELHO_PROFISSIONAL_EXECUTANTE_str = ""
+
     if data["TIPO_PARTICIPACAO"] is None:
         return [
             {
@@ -295,9 +302,9 @@ def mapping_Common_CareTeam_Data(data):
                                 "coding": [
                                     {
                                         "code": data[
-                                            "SG_CONSELHO_PROFISSIONAL_EXECUTANTE"
+                                            "SG_CONSELHO_PROFISSIONAL_SOLICITANTE"
                                         ],
-                                        "display": SG_CONSELHO_PROFISSIONAL_EXECUTANTE_str,
+                                        "display": SG_CONSELHO_PROFISSIONAL_SOLICITANTE_str,
                                     }
                                 ]
                             }
@@ -397,9 +404,9 @@ def mapping_Common_CareTeam_Data(data):
                                 "coding": [
                                     {
                                         "code": data[
-                                            "SG_CONSELHO_PROFISSIONAL_EXECUTANTE"
+                                            "SG_CONSELHO_PROFISSIONAL_SOLICITANTE"
                                         ],
-                                        "display": SG_CONSELHO_PROFISSIONAL_EXECUTANTE_str,
+                                        "display": SG_CONSELHO_PROFISSIONAL_SOLICITANTE_str,
                                     }
                                 ]
                             }
@@ -793,7 +800,7 @@ def mapping_Common_Diagnosis_Data(data):
 # Mapping Provider Organization
 def mapping_Common_Provider_Organization_Data(data):
     """Mapping providerOrganization Common Data"""
-    return {"identifer": [{"system": "", "value": {"value": data["CD_UNIMED_ORIGEM"]}}]}
+    return {"identifier": [{"system": "", "value": {"value": data["CD_UNIMED_ORIGEM"]}}]}
 
 
 # mapping Accident

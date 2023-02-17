@@ -66,7 +66,6 @@ from datetime import datetime
 
 processedRecordList = []
 failedRecordsList = []
-recordList = []
 
 # Establishing Connection In Mongo
 conncetion = getMongoConnection()
@@ -111,9 +110,9 @@ if len(commonPendingRecord) > 0:
                 "dateCreated": datetime.now(),
                 "lastUpdated": datetime.now(),
             }
-            recordList.append(dbRecord)
             print("Claim Id {0} added to the document".format(row["CHAVE_NOTA"]))
             processedRecordList.append(row["CHAVE_NOTA"])
+            collection.insert_one(dbRecord)
         except Exception as e:
             print(
                 "Exception while inserting the claim Id {0} and the Exception occured is {1}".format(
@@ -121,12 +120,7 @@ if len(commonPendingRecord) > 0:
                 )
             )
             failedRecordsList.append(row["CHAVE_NOTA"])
-    # Inserting Data to Minerva
-    print("Inserting Data to Minerva ....")
-    print("Record List", len(recordList))
-    collection.insert_many(recordList)
-    #     print(recordList)
-    print("Document Inserted...")
+            
     # Updating status
     print("Updating Status...")
     if len(processedRecordList) > 0:
